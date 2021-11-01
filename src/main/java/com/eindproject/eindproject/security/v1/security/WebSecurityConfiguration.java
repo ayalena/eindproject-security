@@ -31,22 +31,32 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/placeholderAdminLink").hasRole("ADMIN")
-                .antMatchers("/placeholderUserLink").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/getMethodForAdminPlaceholder").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/getMethodForUsersPlaceholder").hasRole("USER")
 
+                //for all
+                .antMatchers("/appointments").permitAll()
+
+                //for admin only
+                .antMatchers(HttpMethod.POST,"/appointments").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/appointments").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/appointments/{id}").hasRole("ADMIN")
+
+                //for customers
+                .antMatchers(HttpMethod.PUT, "/appointments/{id}/reserve").hasRole("USER")
+                .antMatchers(HttpMethod.PUT, "/appointments/{id}/cancel").hasRole("USER")
+
+                //rest
                 .and()
 //                .anyRequest().permitAll()
 //                .and()
                 .cors()
                 .and()
+
+                //disabled
                 .csrf().disable()
                 .formLogin().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ;
+        ;
     }
 
 
