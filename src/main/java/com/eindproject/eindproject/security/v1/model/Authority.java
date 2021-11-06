@@ -35,4 +35,13 @@ public class Authority implements Serializable {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
+
+
+    //authority method
+    public Authority() {}
+    public Authority(String username, String authority) {
+        this.username = username;
+        this.authority = authority;
+    }
+
 }
