@@ -1,6 +1,8 @@
 package com.eindproject.eindproject.security.v1.model;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +21,7 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String email;
 
     //relations
