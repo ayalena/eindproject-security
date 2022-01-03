@@ -6,6 +6,8 @@ import com.eindproject.eindproject.security.v1.model.User;
 import com.eindproject.eindproject.security.v1.payload.request.UserPostRequest;
 import com.eindproject.eindproject.security.v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,11 +20,14 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private static PasswordEncoder passwordEncoder;
+    private static UserRepository userRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public Iterable<User> getUsers() {
         return userRepository.findAll();
@@ -32,33 +37,35 @@ public class UserService {
         return userRepository.findById(username);
     }
 
-    public String createUser(UserPostRequest userPostRequest) {
-        try {
-            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+//    public static ResponseEntity<String> createUser(UserPostRequest userPostRequest) {
+//        try {
+//            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
+//
+//            User user = new User();
+//            user.setUsername(userPostRequest.getUsername());
+//            user.setPassword(encryptedPassword);
+//            user.setEmail(userPostRequest.getEmail());
+////            user.setEnabled(true);
+//            user.addAuthority("ROLE_USER");
+//            for (String s : userPostRequest.getAuthorities()) {
+//                if (!s.startsWith("ROLE_")) {
+//                    s = "ROLE_" + s;
+//                }
+//                s = s.toUpperCase();
+//                if (!s.equals("ROLE_USER")) {
+//                    user.addAuthority(s);
+//                }
+//            }
+//            userRepository.save(user);
+//            return ResponseEntity.ok("Registration Successful");
+//        }
+//        catch (Exception ex) {
+////            throw new BadRequestException("Cannot create user.");
+//            throw new RecordNotFoundException();
+//        }
+//    }
 
-            User user = new User();
-            user.setUsername(userPostRequest.getUsername());
-            user.setPassword(encryptedPassword);
-            user.setEmail(userPostRequest.getEmail());
-            user.setEnabled(true);
-            user.addAuthority("ROLE_USER");
-            for (String s : userPostRequest.getAuthorities()) {
-                if (!s.startsWith("ROLE_")) {
-                    s = "ROLE_" + s;
-                }
-                s = s.toUpperCase();
-                if (!s.equals("ROLE_USER")) {
-                    user.addAuthority(s);
-                }
-            }
-            User newUser = userRepository.save(user);
-            return newUser.getUsername();
-        }
-        catch (Exception ex) {
-//            throw new BadRequestException("Cannot create user.");
-            throw new RecordNotFoundException();
-        }
-    }
+
 
     public void updateUser(String username, User newUser) {
         Optional<User> userOptional = userRepository.findById(username);
@@ -70,7 +77,7 @@ public class UserService {
             User user = userOptional.get();
             user.setPassword(passwordEncoder.encode(newUser.getPassword()));
             user.setEmail(newUser.getEmail());
-            user.setEnabled(newUser.isEnabled());
+//            user.setEnabled(newUser.isEnabled());
             userRepository.save(user);
         }
     }
@@ -100,32 +107,32 @@ public class UserService {
     }
 
 
-    public void addAuthority(String username, String authorityString) {
-        Optional<User> userOptional = userRepository.findById(username);
-        if (userOptional.isEmpty()) {
-//            throw new UserNotFoundException(username);
-            throw new RecordNotFoundException();
-        }
-        else {
-            User user = userOptional.get();
-            user.addAuthority(authorityString);
-            userRepository.save(user);
-        }
-    }
+//    public void addAuthority(String username, String authorityString) {
+//        Optional<User> userOptional = userRepository.findById(username);
+//        if (userOptional.isEmpty()) {
+////            throw new UserNotFoundException(username);
+//            throw new RecordNotFoundException();
+//        }
+//        else {
+//            User user = userOptional.get();
+//            user.addAuthority(authorityString);
+//            userRepository.save(user);
+//        }
+//    }
 
 
-    public void removeAuthority(String username, String authorityString) {
-        Optional<User> userOptional = userRepository.findById(username);
-        if (userOptional.isEmpty()) {
-//            throw new UserNotFoundException(username);
-            throw new RecordNotFoundException();
-        }
-        else {
-            User user = userOptional.get();
-            user.removeAuthority(authorityString);
-            userRepository.save(user);
-        }
-    }
+//    public void removeAuthority(String username, String authorityString) {
+//        Optional<User> userOptional = userRepository.findById(username);
+//        if (userOptional.isEmpty()) {
+////            throw new UserNotFoundException(username);
+//            throw new RecordNotFoundException();
+//        }
+//        else {
+//            User user = userOptional.get();
+//            user.removeAuthority(authorityString);
+//            userRepository.save(user);
+//        }
+//    }
 
 
     public void setPassword(String username, String password) {

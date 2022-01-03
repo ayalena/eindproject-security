@@ -1,11 +1,19 @@
 package com.eindproject.eindproject.security.v1.payload.request;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class UserPostRequest {
+
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String password;
+
+    @NotBlank
     private String email;
+
     private Set<String> authorities;
 
     public String getUsername() {

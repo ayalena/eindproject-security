@@ -1,15 +1,20 @@
 package com.eindproject.eindproject.security.v1.security;
 
 import com.eindproject.eindproject.security.v1.filter.JwtRequestFilter;
+import com.eindproject.eindproject.security.v1.repository.UserRepository;
+import com.eindproject.eindproject.security.v1.model.UserDetailsImpl;
+import com.eindproject.eindproject.security.v1.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,11 +25,23 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
+    private final JwtRequestFilter jwtRequestFilter;
+    private final UserRepository userRepository;
 
     @Autowired
-    JwtRequestFilter jwtRequestFilter;
+    public WebSecurityConfiguration(DataSource dataSource, JwtRequestFilter jwtRequestFilter, UserRepository userRepository) {
+        this.dataSource = dataSource;
+        this.jwtRequestFilter = jwtRequestFilter;
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+    
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -48,16 +65,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //for all
-                .antMatchers(HttpMethod.GET,"/appointments").permitAll()
+//                .antMatchers(HttpMethod.GET,"/appointments").permitAll()
+                .antMatchers(HttpMethod.POST,"/register").permitAll()
 
                 //for admin only
-                .antMatchers(HttpMethod.POST,"/appointments").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/appointments").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT,"/appointments/{id}").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.POST,"/appointments").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE,"/appointments").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PUT,"/appointments/{id}").hasRole("ADMIN")
 
                 //for customers
-                .antMatchers(HttpMethod.PUT, "/appointments/{id}/reserve").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/appointments/{id}/cancel").hasRole("USER")
+//                .antMatchers(HttpMethod.PUT, "/appointments/{id}/reserve").hasRole("USER")
+//                .antMatchers(HttpMethod.PUT, "/appointments/{id}/cancel").hasRole("USER")
 
                 //rest
                 .and()

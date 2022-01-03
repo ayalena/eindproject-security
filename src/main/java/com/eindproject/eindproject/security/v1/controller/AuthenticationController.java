@@ -1,23 +1,40 @@
 package com.eindproject.eindproject.security.v1.controller;
 
 import com.eindproject.eindproject.security.v1.payload.request.AuthenticationRequest;
+import com.eindproject.eindproject.security.v1.payload.request.UserPostRequest;
 import com.eindproject.eindproject.security.v1.payload.response.AuthenticationResponse;
-import com.eindproject.eindproject.security.v1.service.UserAuthenticateService;
+import com.eindproject.eindproject.security.v1.repository.AuthorityRepository;
+import com.eindproject.eindproject.security.v1.service.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/auth")
 public class AuthenticationController {
 
-    @Autowired
-    UserAuthenticateService userAuthenticateService;
+    AuthorityService authorityService;
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        AuthenticationResponse authenticationResponse = userAuthenticateService.authenticateUser(authenticationRequest);
-        return ResponseEntity.ok(authenticationResponse);
+    @Autowired
+    public AuthenticationController(AuthorityService authorityService) {
+        this.authorityService = authorityService;
     }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
+       return authorityService.authenticateUser(authenticationRequest);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@RequestBody UserPostRequest userPostRequest) {
+        return authorityService.registerUser(userPostRequest);
+    }
+
+    //    @PostMapping("/user/registration")
+//    public String showRegistrationForm(WebRequest request, Model model) {
+//        UserDto userDto = new UserDto();
+//        model.addAttribute("user", userDto);
+//        return "registration";
+//    }
 }

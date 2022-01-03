@@ -1,14 +1,19 @@
 package com.eindproject.eindproject.security.v1.payload.request;
 
+import javax.validation.constraints.NotBlank;
+
 public class AuthenticationRequest {
 
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String password;
 
-    public AuthenticationRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+//    public AuthenticationRequest(String username, String password) {
+//        this.username = username;
+//        this.password = password;
+//    }
 
     public String getUsername() {
         return username;

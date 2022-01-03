@@ -1,47 +1,75 @@
 package com.eindproject.eindproject.security.v1.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "authorities")
-public class Authority implements Serializable {
+public class Authority {
 
     @Id
-    @Column(nullable = false)
-    private String username;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @Id
-    @Column(nullable = false)
-    private String authority;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private EAuthority name;
 
-
-    //getters and setters
-    public String getUsername() {
-        return username;
+    public Authority() {
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Authority(EAuthority name) {
+        this.name = name;
     }
 
-    public String getAuthority() {
-        return authority;
+    public Integer getId() {
+        return id;
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-
-    //authority method
-    public Authority() {}
-    public Authority(String username, String authority) {
-        this.username = username;
-        this.authority = authority;
+    public EAuthority getName() {
+        return name;
     }
+
+    public void setName(EAuthority name) {
+        this.name = name;
+    }
+
+//    @Id
+//    @Column(nullable = false)
+//    private String username;
+//
+//    @Id
+//    @Column(nullable = false)
+//    private String authority;
+//
+//
+//    //getters and setters
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+//    public String getAuthority() {
+//        return authority;
+//    }
+//
+//    public void setAuthority(String authority) {
+//        this.authority = authority;
+//    }
+//
+//
+//    //authority constructors
+//    public Authority() {}
+//    public Authority(String username, String authority) {
+//        this.username = username;
+//        this.authority = authority;
+//    }
 
 }

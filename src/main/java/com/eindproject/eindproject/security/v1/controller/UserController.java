@@ -18,8 +18,12 @@ import java.util.Map;
 @PreAuthorize("hasAnyRole('ADMIN')")
 public class UserController {
 
-    @Autowired
     UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/users")
     public ResponseEntity<Object> getUsers() {
@@ -31,18 +35,18 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<Object> createUser(@RequestBody UserPostRequest user) {
-        String newUsername = userService.createUser(user);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{username}")
-                .buildAndExpand(newUsername)
-                .toUri();
-
-        return ResponseEntity.created(location).build();
-    }
+//    @PostMapping("/users")
+//    public ResponseEntity<Object> createUser(@RequestBody UserPostRequest user) {
+//        ResponseEntity<String> newUsername = userService.createUser(user);
+//
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{username}")
+//                .buildAndExpand(newUsername)
+//                .toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
 
     @PutMapping(value = "/{username}")
     public ResponseEntity<Object> updateUser(@PathVariable("username") String username, @RequestBody User user) {
@@ -61,24 +65,24 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAuthorities(username));
     }
 
-    @PostMapping(value = "/{username}/authorities")
-    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @RequestBody Map<String, Object> fields) {
-        try {
-            String authorityName = (String) fields.get("authority");
-            userService.addAuthority(username, authorityName);
-            return ResponseEntity.noContent().build();
-        }
-        catch (Exception ex) {
-//            throw new BadRequestException();
-            throw new RecordNotFoundException();
-        }
-    }
+//    @PostMapping(value = "/{username}/authorities")
+//    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @RequestBody Map<String, Object> fields) {
+//        try {
+//            String authorityName = (String) fields.get("authority");
+//            userService.addAuthority(username, authorityName);
+//            return ResponseEntity.noContent().build();
+//        }
+//        catch (Exception ex) {
+////            throw new BadRequestException();
+//            throw new RecordNotFoundException();
+//        }
+//    }
 
-    @DeleteMapping(value = "/{username}/authorities/{authority}")
-    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
-        userService.removeAuthority(username, authority);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping(value = "/{username}/authorities/{authority}")
+//    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
+//        userService.removeAuthority(username, authority);
+//        return ResponseEntity.noContent().build();
+//    }
 
     @PatchMapping(value = "/{username}/password")
     public ResponseEntity<Object> setPassword(@PathVariable("username") String username, @RequestBody String password) {
