@@ -1,9 +1,6 @@
 package com.eindproject.eindproject.security.v1.security;
 
-import com.eindproject.eindproject.security.v1.filter.JwtRequestFilter;
-import com.eindproject.eindproject.security.v1.repository.UserRepository;
-import com.eindproject.eindproject.security.v1.model.UserDetailsImpl;
-import com.eindproject.eindproject.security.v1.service.UserDetailsServiceImpl;
+import com.eindproject.eindproject.security.v1.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,27 +11,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration<UserDetailsServiceImpl> extends WebSecurityConfigurerAdapter {
 
-    private final DataSource dataSource;
-    private final JwtRequestFilter jwtRequestFilter;
-    private final UserRepository userRepository;
+//    private final DataSource dataSource;
 
     @Autowired
-    public WebSecurityConfiguration(DataSource dataSource, JwtRequestFilter jwtRequestFilter, UserRepository userRepository) {
-        this.dataSource = dataSource;
-        this.jwtRequestFilter = jwtRequestFilter;
-        this.userRepository = userRepository;
-    }
+    JwtRequestFilter jwtRequestFilter;
+//    private final UserRepository userRepository;
+
+
+
+//    @Autowired
+//    public WebSecurityConfiguration(DataSource dataSource, JwtRequestFilter jwtRequestFilter, UserRepository userRepository) {
+//        this.dataSource = dataSource;
+//        this.jwtRequestFilter = jwtRequestFilter;
+//        this.userRepository = userRepository;
+//    }
+
+    @Autowired
+    com.eindproject.eindproject.security.v1.service.UserDetailsServiceImpl userDetailsService;
 
     @Override
     @Bean
@@ -42,16 +43,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
     
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     //creating users
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.jdbcAuthentication().dataSource(dataSource);
+//    }
+
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     //securing endpoints
@@ -93,6 +98,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 
 
 }

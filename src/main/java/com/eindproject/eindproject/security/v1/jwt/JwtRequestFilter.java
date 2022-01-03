@@ -1,16 +1,14 @@
-package com.eindproject.eindproject.security.v1.filter;
+package com.eindproject.eindproject.security.v1.jwt;
 
-import com.eindproject.eindproject.security.v1.security.JwtUtil;
-import com.eindproject.eindproject.security.v1.model.UserDetailsImpl;
 import com.eindproject.eindproject.security.v1.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,18 +20,14 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-
-//    @Autowired
-//    UserDetailsService userDetailsService;
-
     @Autowired
-    UserDetailsImpl userDetails;
+    private JwtUtil jwtUtil;
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+
+
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -65,6 +59,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
 
+    }
+
+    private String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
+        }
+
+        return null;
     }
 
 }

@@ -3,7 +3,6 @@ package com.eindproject.eindproject.security.v1.controller;
 import com.eindproject.eindproject.security.v1.payload.request.AuthenticationRequest;
 import com.eindproject.eindproject.security.v1.payload.request.UserPostRequest;
 import com.eindproject.eindproject.security.v1.payload.response.AuthenticationResponse;
-import com.eindproject.eindproject.security.v1.repository.AuthorityRepository;
 import com.eindproject.eindproject.security.v1.service.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

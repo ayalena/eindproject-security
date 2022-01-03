@@ -1,17 +1,11 @@
 package com.eindproject.eindproject.security.v1.controller;
 
-import com.eindproject.eindproject.security.v1.exceptions.RecordNotFoundException;
 import com.eindproject.eindproject.security.v1.model.User;
-import com.eindproject.eindproject.security.v1.payload.request.UserPostRequest;
 import com.eindproject.eindproject.security.v1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")

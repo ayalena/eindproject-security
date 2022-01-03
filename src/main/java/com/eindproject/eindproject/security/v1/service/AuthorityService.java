@@ -10,7 +10,7 @@ import com.eindproject.eindproject.security.v1.payload.response.AuthenticationRe
 import com.eindproject.eindproject.security.v1.payload.response.MessageResponse;
 import com.eindproject.eindproject.security.v1.repository.AuthorityRepository;
 import com.eindproject.eindproject.security.v1.repository.UserRepository;
-import com.eindproject.eindproject.security.v1.security.JwtUtil;
+import com.eindproject.eindproject.security.v1.jwt.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +68,7 @@ public class AuthorityService {
 
 
 
-
+    //register
     public static ResponseEntity<MessageResponse> registerUser(@Valid UserPostRequest userPostRequest) {
         if (userRepository.existsByUsername(userPostRequest.getUsername())) {
             return ResponseEntity
@@ -81,6 +81,7 @@ public class AuthorityService {
                     .body(new MessageResponse("Email already in use"));
         }
 
+        //create user
         User user = new User(userPostRequest.getUsername(),
                 userPostRequest.getEmail(),
                 passwordEncoder.encode(userPostRequest.getPassword()));
@@ -124,6 +125,7 @@ public class AuthorityService {
         return ResponseEntity.ok(new MessageResponse("Registration succesful!"));
     }
 
+    //login
     public ResponseEntity<AuthenticationResponse> authenticateUser(@Valid AuthenticationRequest authenticationRequest) {
 //        String username = authenticationRequest.getUsername();
 //        String password = authenticationRequest.getPassword();

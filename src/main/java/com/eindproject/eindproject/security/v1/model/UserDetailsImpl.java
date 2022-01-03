@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 //@Service
 public class UserDetailsImpl implements UserDetails {
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+//    @Autowired
+//    private AuthorityRepository authorityRepository;
 
 
     private static final long serialVersionUID = 1L;
