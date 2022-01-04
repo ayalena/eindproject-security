@@ -29,13 +29,15 @@ public class User {
     private String email;
 
     //relations
-    @OneToMany(
-            targetEntity = Authority.class,
+    @ManyToMany(
+//            targetEntity = Authority.class,
 //            mappedBy = "username",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
+
+
 
 
     //constructor

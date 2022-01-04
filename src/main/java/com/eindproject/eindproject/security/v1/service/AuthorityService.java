@@ -114,9 +114,9 @@ public class AuthorityService {
 
                         break;
                     default:
-                        Authority userRole = (Authority) authorityRepository.findByName(EAuthority.ROLE_USER)
+                        Authority userAuthority = (Authority) authorityRepository.findByName(EAuthority.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        authorities.add(userRole);
+                        authorities.add(userAuthority);
                 }
             });
         }
