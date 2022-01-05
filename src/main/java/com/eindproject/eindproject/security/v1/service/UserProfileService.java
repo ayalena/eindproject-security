@@ -49,6 +49,7 @@ public class UserProfileService {
             userProfile.setAge(newUserProfile.getAge());
             userProfile.setAddress(newUserProfile.getAddress());
             userProfile.setPostalCode(newUserProfile.getPostalCode());
+            userProfile.setCountry(newUserProfile.getCountry());
             userProfile.setPhoneNumber(newUserProfile.getPhoneNumber());
             userProfile.setMessage(newUserProfile.getMessage());
             userProfile.setSessionType(newUserProfile.getSessionType());

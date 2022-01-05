@@ -16,6 +16,7 @@ public class UserProfile {
     private int age;
     private String address;
     private String postalCode;
+    private String country;
     private String phoneNumber;
     private String message;
     private String sessionType;
@@ -33,13 +34,14 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(String email, String firstName, String lastName, int age, String address, String postalCode, String phoneNumber, String message, String sessionType, Boolean isPregnant, Boolean hadAcu, String reference, Boolean agrees, User user) {
+    public UserProfile(String email, String firstName, String lastName, int age, String address, String postalCode, String country, String phoneNumber, String message, String sessionType, Boolean isPregnant, Boolean hadAcu, String reference, Boolean agrees, User user) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.address = address;
         this.postalCode = postalCode;
+        this.country = country;
         this.phoneNumber = phoneNumber;
         this.message = message;
         this.sessionType = sessionType;
@@ -105,6 +107,14 @@ public class UserProfile {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getPhoneNumber() {
