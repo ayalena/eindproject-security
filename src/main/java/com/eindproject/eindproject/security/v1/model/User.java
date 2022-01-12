@@ -1,6 +1,6 @@
 package com.eindproject.eindproject.security.v1.model;
 
-//import com.eindproject.eindproject.security.v1.property.DocumentStorageProperties;
+//import com.eindproject.eindproject.security.v1.documentstorage.DocumentStorageProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.http.ResponseEntity;
 

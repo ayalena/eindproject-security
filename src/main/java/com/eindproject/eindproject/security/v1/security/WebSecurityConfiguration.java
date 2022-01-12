@@ -1,7 +1,7 @@
 package com.eindproject.eindproject.security.v1.security;
 
 import com.eindproject.eindproject.security.v1.jwt.JwtRequestFilter;
-//import com.eindproject.eindproject.security.v1.property.DocumentStorageProperties;
+//import com.eindproject.eindproject.security.v1.documentstorage.DocumentStorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

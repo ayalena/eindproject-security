@@ -1,7 +1,5 @@
-//package com.eindproject.eindproject.security.v1.repository;
+//package com.eindproject.eindproject.security.v1.documentstorage;
 //
-//import com.eindproject.eindproject.security.v1.property.DocumentStorageProperties;
-//import com.eindproject.eindproject.security.v1.property.FileStorageProperties;
 //import org.springframework.data.jpa.repository.JpaRepository;
 //import org.springframework.data.jpa.repository.Query;
 //import org.springframework.stereotype.Repository;

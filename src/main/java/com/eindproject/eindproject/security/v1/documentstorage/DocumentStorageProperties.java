@@ -1,4 +1,4 @@
-//package com.eindproject.eindproject.security.v1.property;
+//package com.eindproject.eindproject.security.v1.documentstorage;
 //
 //import org.springframework.boot.context.properties.ConfigurationProperties;
 //

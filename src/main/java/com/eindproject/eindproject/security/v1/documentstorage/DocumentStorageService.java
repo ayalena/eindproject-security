@@ -1,8 +1,8 @@
-//package com.eindproject.eindproject.security.v1.service;
+//package com.eindproject.eindproject.security.v1.documentstorage;
 //
-//import com.eindproject.eindproject.security.v1.exceptions.DocumentStorageException;
-//import com.eindproject.eindproject.security.v1.property.DocumentStorageProperties;
-//import com.eindproject.eindproject.security.v1.repository.DocumentStoragePropertiesRepo;
+//import com.eindproject.eindproject.security.v1.documentstorage.DocumentStorageException;
+//import com.eindproject.eindproject.security.v1.documentstorage.DocumentStorageProperties;
+//import com.eindproject.eindproject.security.v1.documentstorage.DocumentStoragePropertiesRepo;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.core.io.Resource;
 //import org.springframework.core.io.UrlResource;

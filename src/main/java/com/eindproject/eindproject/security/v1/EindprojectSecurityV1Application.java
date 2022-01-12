@@ -1,6 +1,6 @@
 package com.eindproject.eindproject.security.v1;
 
-//import com.eindproject.eindproject.security.v1.property.DocumentStorageProperties;
+//import com.eindproject.eindproject.security.v1.documentstorage.DocumentStorageProperties;
 //import com.eindproject.eindproject.security.v1.property.FileStorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

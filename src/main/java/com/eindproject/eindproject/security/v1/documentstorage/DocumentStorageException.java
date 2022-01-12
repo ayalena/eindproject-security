@@ -1,4 +1,4 @@
-//package com.eindproject.eindproject.security.v1.exceptions;
+//package com.eindproject.eindproject.security.v1.documentstorage;
 //
 //public class DocumentStorageException extends RuntimeException{
 //    public DocumentStorageException(String message) {

@@ -1,7 +1,6 @@
-//package com.eindproject.eindproject.security.v1.controller;
+//package com.eindproject.eindproject.security.v1.documentstorage;
 //
 //import com.eindproject.eindproject.security.v1.message.UploadFileResponse;
-//import com.eindproject.eindproject.security.v1.service.DocumentStorageService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.core.io.Resource;
 //import org.springframework.http.HttpHeaders;
