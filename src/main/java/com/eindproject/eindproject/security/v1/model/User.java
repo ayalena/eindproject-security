@@ -1,10 +1,13 @@
 package com.eindproject.eindproject.security.v1.model;
 
+//import com.eindproject.eindproject.security.v1.property.DocumentStorageProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,14 +32,22 @@ public class User {
     private String email;
 
     //relations
-    @ManyToMany(
-//            targetEntity = Authority.class,
-//            mappedBy = "username",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-            fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_authorities",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Set<Authority> authorities = new HashSet<>();
 
+    @OneToOne(fetch = FetchType.LAZY,
+            mappedBy = "user",
+            cascade = CascadeType.ALL)
+    private UserProfile userProfile;
+
+//    @OneToMany(
+//            mappedBy = "user",
+//            cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<DocumentStorageProperties> fileDB;
 
 
 

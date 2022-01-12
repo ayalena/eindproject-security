@@ -3,6 +3,7 @@ package com.eindproject.eindproject.security.v1.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "user_profile")
 public class UserProfile {
 
     //attributes
@@ -27,6 +28,7 @@ public class UserProfile {
 
     //relations
     @OneToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 

@@ -2,7 +2,13 @@ package com.eindproject.eindproject.security.v1.service;
 
 import com.eindproject.eindproject.security.v1.exceptions.FileStorageException;
 import com.eindproject.eindproject.security.v1.exceptions.MyFileNotFoundException;
+import com.eindproject.eindproject.security.v1.exceptions.RecordNotFoundException;
+import com.eindproject.eindproject.security.v1.model.Feedback;
+import com.eindproject.eindproject.security.v1.model.FileDB;
+import com.eindproject.eindproject.security.v1.model.User;
 import com.eindproject.eindproject.security.v1.property.FileStorageProperties;
+import com.eindproject.eindproject.security.v1.repository.FileDBRepository;
+import com.eindproject.eindproject.security.v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,6 +22,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class FileStorageService {
@@ -23,6 +33,54 @@ public class FileStorageService {
 //    FilesStorageService uses FileDBRepository to provide methods for saving new file, get file by id, get list of Files
 
     //service for storing files in the file system and retrieving them
+
+    @Autowired
+    private FileDBRepository fileDBRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public FileDB uploadFile(MultipartFile multipartFile, Long id) throws IOException {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        User user = userRepository.findById(id).get();
+
+        FileDB fileDB = new FileDB(fileName, multipartFile.getContentType(), multipartFile.getBytes());
+        fileDB.setUser(user);
+        userRepository.save(user);
+        return fileDBRepository.save(fileDB);
+    }
+
+    public FileDB getFileById(Long id) {
+        if (fileDBRepository.findById(id).isPresent()) {
+            return fileDBRepository.findById(id).get();
+        } else {
+            throw new RecordNotFoundException(id);
+        }
+    }
+
+    public Stream<FileDB> getAllFiles() {
+        return fileDBRepository.findAll().stream();
+    }
+
+    public void deleteFile(Long id) {
+        if (fileDBRepository.existsById(id)) {
+            fileDBRepository.deleteById(id);
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
+    public List<Feedback> getFilesFeedback(Long id) {
+        Optional<FileDB> fileDB = fileDBRepository.findById(id);
+        if (fileDB.isPresent()) {
+            return fileDB.get().getFeedback();
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
+
+
 
 //    private final Path fileStorageLocation;
 
